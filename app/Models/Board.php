@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Board extends Model
 {
     use HasFactory;
+
+    protected $table = 'boards';
+
+    protected $fillable = [
+        'board_name'
+    ];
+
+    //*Start with the relationship methods
 }

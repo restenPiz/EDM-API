@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Pt extends Model
 {
     use HasFactory;
+
+    protected $table = 'pt';
+
+    protected $fillable = [
+        'name',
+        'city',
+        'neighborhood'
+    ];
 }

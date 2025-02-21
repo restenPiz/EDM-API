@@ -12,6 +12,12 @@ class Occurrence extends Model
     protected $table = 'occurrences';
 
     protected $fillable = [
-
+        'title',
+        'description',
+        'date',
+        'user_id',
+        'status'
     ];
+
+    //*start with the relationship methods
 }
