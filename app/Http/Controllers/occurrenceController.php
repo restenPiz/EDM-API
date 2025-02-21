@@ -132,7 +132,7 @@ class occurrenceController extends Controller
             'Board' => $board
         ], 200);
     }
-    public function storeBoards(Request $request, $id)
+    public function storeBoards(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'board_name' => 'required|string|max:255',
