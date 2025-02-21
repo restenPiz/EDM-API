@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
+            $table->string('city');
+            $table->date('date');
+            $table->string('status');
+            $table->string('description');
+
+            //*Start with the foreign key
+
             $table->timestamps();
         });
     }
