@@ -6,5 +6,8 @@ use Illuminate\Http\Request;
 
 class ptController extends Controller
 {
-    //
+    public function store()
+    {
+
+    }
 }
