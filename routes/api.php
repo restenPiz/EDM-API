@@ -1,19 +1,15 @@
 <?php
 
+use App\Http\Controllers\occurrenceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//*Occurrence routes
+Route::get('/occurrences', [occurrenceController::class, 'index']);
+Route::post('/storeOccurrences', [occurrenceController::class, 'store']);
+Route::post('/updateOccurrences/{id}', [occurrenceController::class, 'update']);
+Route::post('/deleteOccurrences/{id}', [occurrenceController::class, 'delete']);
