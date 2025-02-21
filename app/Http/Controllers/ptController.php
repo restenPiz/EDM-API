@@ -17,4 +17,8 @@ class ptController extends Controller
             'pts' => $pts
         ], 201);
     }
+    public function store()
+    {
+
+    }
 }
