@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Board;
 use App\Models\Occurrence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class occurrenceController extends Controller
 {
+    //*Start with OCCURRENCE methods
     public function index()
     {
         $occurrences = Occurrence::with(['user', 'board'])->latest()->get();
@@ -89,4 +91,64 @@ class occurrenceController extends Controller
         ], 200);
     }
 
+    //*Start with the BOARD methods
+    public function boards()
+    {
+        $boards = Board::all();
+
+        return response()->json($boards);
+    }
+    public function updateBoards(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'board_name' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $board = Board::find($id);
+        if (!$board) {
+            return response()->json(['error' => 'Board not found!'], 404);
+        }
+
+        $board->update([
+            'board_name' => $request->board_name,
+        ]);
+
+        return response()->json([
+            'message' => 'Board updated with success!',
+            'Board' => $board
+        ], 200);
+    }
+    public function deleteBoards($id)
+    {
+        $board = Board::findOrFail($id);
+        $board->delete();
+
+        return response()->json([
+            'message' => 'Board deleted with success!',
+            'Board' => $board
+        ], 200);
+    }
+    public function storeBoards(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'board_name' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $board = Board::create([
+            'board_name' => $request->board_name,
+        ]);
+
+        return response()->json([
+            'message' => 'Board added with success!',
+            'Board' => $board
+        ], 200);
+    }
 }
