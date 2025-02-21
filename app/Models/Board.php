@@ -16,4 +16,8 @@ class Board extends Model
     ];
 
     //*Start with the relationship methods
+    public function occurrences(): HasMany
+    {
+        return $this->hasMany(Occurrence::class, 'board_id', 'id');
+    }
 }

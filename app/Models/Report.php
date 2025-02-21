@@ -20,4 +20,8 @@ class Report extends Model
     ];
 
     //*Start with the relationship methods
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

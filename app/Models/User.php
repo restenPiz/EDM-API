@@ -28,4 +28,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    //*Start with foreign keys methods
+    public function occurrences(): HasMany
+    {
+        return $this->hasMany(Occurrence::class, 'user_id', 'id');
+    }
+    public function reports(): HasMany
+    {
+        return $this->hasMany(Report::class, 'user_id', 'id');
+    }
 }
