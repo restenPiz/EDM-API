@@ -15,6 +15,11 @@ return new class extends Migration {
             $table->string('status');
 
             //*Start with the foreign keys
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('board_id');
+            $table->foreign('board_id')->references('id')->on('boards')->onDelete('cascade');
 
             $table->timestamps();
         });
