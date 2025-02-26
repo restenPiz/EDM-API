@@ -26,5 +26,6 @@ Route::get('/pts', [ptController::class, 'index']);
 Route::post('/storePts', [ptController::class, 'store']);
 Route::post('/updatePts/{id}', [ptController::class, 'update']);
 Route::post('/deletePts/{id}', [ptController::class, 'delete']);
+Route::get('/showPts/{id}', [PtController::class, 'show']);
 
 //*Resources routes

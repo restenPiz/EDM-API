@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\Validator;
 
 class ptController extends Controller
 {
+    public function index()
+    {
+        $pts = Pt::all();
+
+        return response()->json([
+            'pts' => $pts
+        ], 201);
+    }
     public function delete($id)
     {
         $pts = Pt::findOrFail($id);
@@ -40,6 +48,16 @@ class ptController extends Controller
             'message' => 'Pt added with success!',
             'pts' => $pts
         ], 201);
+    }
+    public function show($id)
+    {
+        $pt = Pt::find($id);
+
+        if (!$pt) {
+            return response()->json(['message' => 'PT não encontrado'], 404);
+        }
+
+        return response()->json($pt);
     }
     public function update(Request $request, $id)
     {
