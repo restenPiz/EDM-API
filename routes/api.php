@@ -2,12 +2,9 @@
 
 use App\Http\Controllers\occurrenceController;
 use App\Http\Controllers\ptController;
+use App\Http\Controllers\userController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
 //*Occurrence routes
 Route::get('/occurrences', [occurrenceController::class, 'index']);
@@ -26,6 +23,11 @@ Route::get('/pts', [ptController::class, 'index']);
 Route::post('/storePts', [ptController::class, 'store']);
 Route::post('/updatePts/{id}', [ptController::class, 'update']);
 Route::post('/deletePts/{id}', [ptController::class, 'delete']);
-Route::get('/showPts/{id}', [PtController::class, 'show']);
+Route::get('/showPts/{id}', [ptController::class, 'show']);
 
-//*Resources routes
+//*Users routes
+Route::get('/users', [userController::class, 'index']);
+Route::post('/storeUsers', [userController::class, 'store']);
+Route::post('/updateUsers/{id}', [userController::class, 'update']);
+Route::post('/deleteUsers/{id}', [userController::class, 'delete']);
+Route::get('/showUsers/{id}', [userController::class, 'show']);
