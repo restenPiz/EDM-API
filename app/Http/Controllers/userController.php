@@ -39,6 +39,7 @@ class userController extends Controller
         $user = User::findOrFail($id);
 
         $user->name = $request->input('name');
+        $user->id = $request->input('id');
         $user->email = $request->input('email');
         $user->password = $request->input('password');
 
