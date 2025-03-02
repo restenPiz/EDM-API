@@ -3,7 +3,6 @@
 use App\Http\Controllers\occurrenceController;
 use App\Http\Controllers\ptController;
 use App\Http\Controllers\userController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 //*Occurrence routes
