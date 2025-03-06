@@ -22,6 +22,7 @@ class userController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->password = $request->input('password');
+        $user->password_confirmation = $request->input('password_confirmation');
 
         if ($request->hasFile('file')) {
             $user['file'] = $request->file('file')->store('uploads/files', 'public');
