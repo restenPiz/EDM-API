@@ -17,15 +17,18 @@ class userController extends Controller
     }
     public function save(Request $request)
     {
+        dd($request->all());
         $user = new User();
 
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->password = $request->input('password');
-        $user->password_confirmation = $request->input('password_confirmation');
+        $user->password = bcrypt($request->input('password'));
 
         if ($request->hasFile('file')) {
-            $user['file'] = $request->file('file')->store('uploads/files', 'public');
+            $file = $request->file('file');
+            $filename = time() . '_' . $file->getClientOriginalName(); // Garante um nome único
+            $path = $file->storeAs('uploads/files', $filename, 'public'); // Salva com o nome correto
+            $user->file = $path;
         }
 
         $user->save();
