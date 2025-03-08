@@ -15,7 +15,7 @@ class userController extends Controller
             'users' => $users
         ], 201);
     }
-    public function save(Request $request)
+    public function store(Request $request)
     {
         dd($request->all());
         $user = new User();
