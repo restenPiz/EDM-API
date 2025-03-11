@@ -20,9 +20,9 @@ class userController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email', // Garante e-mails únicos
-            'password' => 'required|min:6', // Garante um mínimo de 6 caracteres
-            'file' => 'file|mimes:jpg,png,pdf' // Restrição de formato e tamanho
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+            'file' => 'file'
         ]);
 
         if ($validator->fails()) {
