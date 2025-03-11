@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class userController extends Controller
 {
@@ -17,21 +18,28 @@ class userController extends Controller
     }
     public function store(Request $request)
     {
-        dd($request->all());
-        $user = new User();
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = bcrypt($request->input('password'));
-
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $filename = time() . '_' . $file->getClientOriginalName(); // Garante um nome único
-            $path = $file->storeAs('uploads/files', $filename, 'public'); // Salva com o nome correto
-            $user->file = $path;
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $user->save();
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+        // if ($request->hasFile('file')) {
+        //     $file = $request->file('file');
+        //     $filename = time() . '_' . $file->getClientOriginalName(); // Garante um nome único
+        //     $path = $file->storeAs('uploads/files', $filename, 'public'); // Salva com o nome correto
+        //     $user->file = $path;
+        // }
 
         return response()->json([
             'message' => 'User added with success!',
