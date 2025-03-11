@@ -54,21 +54,38 @@ class userController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+        ]);
 
-        $user->name = $request->input('name');
-        $user->id = $request->input('id');
-        $user->email = $request->input('email');
-        $user->password = $request->input('password');
-
-        if ($request->hasFile('file')) {
-            $user['file'] = $request->file('file')->store('uploads/files', 'public');
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $user->save();
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filename = time() . '_' . $file->getClientOriginalName(); // Garante nome único
+            $path = $file->storeAs('uploads/files', $filename, 'public'); // Salva no storage
+
+            if (!$path) {
+                return response()->json(['error' => 'Failed to upload file'], 500);
+            }
+
+            $user->update(['file' => $path]);
+        }
 
         return response()->json([
-            'message' => 'User updated with success!',
+            'message' => 'User updated successfully!',
             'user' => $user
         ], 201);
     }
