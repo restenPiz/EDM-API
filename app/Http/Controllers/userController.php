@@ -18,11 +18,11 @@ class userController extends Controller
     }
     public function store(Request $request)
     {
-        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'password' => 'required',
+            'email' => 'required|email|unique:users,email', // Garante e-mails únicos
+            'password' => 'required|min:6', // Garante um mínimo de 6 caracteres
+            'file' => 'required|file|mimes:jpg,png,pdf|max:2048' // Restrição de formato e tamanho
         ]);
 
         if ($validator->fails()) {
@@ -32,20 +32,27 @@ class userController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password,
+            'password' => bcrypt($request->password),
         ]);
-        // if ($request->hasFile('file')) {
-        //     $file = $request->file('file');
-        //     $filename = time() . '_' . $file->getClientOriginalName(); // Garante um nome único
-        //     $path = $file->storeAs('uploads/files', $filename, 'public'); // Salva com o nome correto
-        //     $user->file = $path;
-        // }
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $filename = time() . '_' . $file->getClientOriginalName(); // Garante nome único
+            $path = $file->storeAs('uploads/files', $filename, 'public'); // Salva no storage
+
+            if (!$path) {
+                return response()->json(['error' => 'Failed to upload file'], 500);
+            }
+
+            $user->update(['file' => $path]);
+        }
 
         return response()->json([
-            'message' => 'User added with success!',
+            'message' => 'User added successfully!',
             'user' => $user
         ], 201);
     }
+
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
