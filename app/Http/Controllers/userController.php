@@ -22,7 +22,7 @@ class userController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email', // Garante e-mails únicos
             'password' => 'required|min:6', // Garante um mínimo de 6 caracteres
-            'file' => 'required|file|mimes:jpg,png,pdf|max:2048' // Restrição de formato e tamanho
+            'file' => 'file|mimes:jpg,png,pdf' // Restrição de formato e tamanho
         ]);
 
         if ($validator->fails()) {
