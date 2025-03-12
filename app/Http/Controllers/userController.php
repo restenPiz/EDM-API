@@ -64,7 +64,11 @@ class userController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $user = User::findOrFail($id);
+        $user = User::findl($id);
+
+        if (!$user) {
+            return response()->json(['error' => 'Occurrence not found!'], 404);
+        }
 
         $user->update([
             'name' => $request->name,
