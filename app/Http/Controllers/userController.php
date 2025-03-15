@@ -61,7 +61,6 @@ class userController extends Controller
     public function update(Request $request, $id)
     {
         // \Log::info('Dados recebidos na API:', $request->all()); // Verifica os dados recebidos
-        // \Log::info('Arquivo recebido:', [$request->file('file')]); // Verifica se o arquivo está chegando
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
